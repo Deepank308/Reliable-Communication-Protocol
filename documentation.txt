@@ -1,0 +1,79 @@
+#########################Table of no. of transmissions#####################
++-------------------+-----------------------------------+
+|                   |                                   |
+|  Drop Probability |  Av. transmissions(includes ACK)  |
+|                   |                                   |
++-------------------+-----------------------------------+
+|       0.05        |               1.5454              |
++-------------------+-----------------------------------+
+|       0.10        |               1.9091              |
++-------------------+-----------------------------------+
+|       0.15        |               2.0303              |
++-------------------+-----------------------------------+
+|       0.20        |               2.3060              |
++-------------------+-----------------------------------+
+|       0.25        |               2.5758              |
++-------------------+-----------------------------------+
+|       0.30        |               2.6364              |
++-------------------+-----------------------------------+
+|       0.35        |               3.1212              |
++-------------------+-----------------------------------+
+|       0.40        |               3.4242              |
++-------------------+-----------------------------------+
+|       0.45        |               4.1515              |
++-------------------+-----------------------------------+
+|       0.50        |               5.2424              |
++-------------------+-----------------------------------+
+###########################################################################
+
+########################Message types######################################
+
+// basic message structure
+typedef struct message{
+
+    int ID;     // unique identifier for the message
+    int if_ack; // to check message type(ACK/APP/RETRANS)
+    
+    struct sockaddr r_addr, s_addr;     // source and receiver address
+    socklen_t r_addr_len, s_addr_len;   // length of the socket addresses
+    
+    char data[MAX_MSG_SZ];  // actual message of the user
+    size_t data_len;        // length of the user message
+
+} Message;
+
+// Unacknowledged messages
+typedef struct unack_msg{
+
+    double lastsent_t;  // store the time of the last sent
+    Message msg;        // the message struct
+
+} UnACKMsg;
+###########################################################################
+
+###############################Data structures#############################
+
+// basic Buffer structure
+typedef struct buffer{
+
+    size_t size;        // size of the buffer
+    Message *buff;      // array of message structure
+
+} Buffer;
+
+// Unacknowledged message table
+typedef struct unack_message_table{
+
+    size_t size;        // size of the table
+    UnACKMsg *table;    // table of Unacknowledged messages structure
+
+} UnACKTble;
+
+// Received messages table
+typedef struct recvd_messages_tbl{
+
+    size_t size;        // size of the table
+    int *id_tbl;        // array of IDs of messages
+
+} RecvdMsg;
+###########################################################################
